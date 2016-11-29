@@ -1,0 +1,17 @@
+.calendar {
+  list-style-type: none;
+  float: left;
+ /* height:40px;*/
+}
+.calendar .highlightDriveDiv {
+  /* height:40px;*/
+  padding: 0;
+  margin: 0px;
+}
+
+li {
+  height: 40px;
+}
+
+
+
