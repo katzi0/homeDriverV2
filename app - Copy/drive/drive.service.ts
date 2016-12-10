@@ -21,7 +21,6 @@ const URL_DRIVES = 'http://localhost:3005/drive';
     return this._http.get('http://localhost:3005/driver/user')
       .map((response: Response) => response.json())
       .catch(this._handlerError);
-      //test
   }
 
 
