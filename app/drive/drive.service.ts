@@ -10,7 +10,7 @@ const URL_DRIVES = 'http://localhost:3005/drive';
   constructor(private _http : Http) { }
 
   getDrives_RXObsverable() {
-    return this._http.get('URL_DRIVES')
+    return this._http.get(URL_DRIVES)
       .map((response: Response) => response.json())
       .catch(this._handlerError);
   }

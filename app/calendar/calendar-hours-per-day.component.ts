@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'calendar-hours-per-day',
-  templateUrl: 'calendar-hours-per-day.component.html',
+  //templateUrl: 'calendar-hours-per-day.component.html',
 })
 
 

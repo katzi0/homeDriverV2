@@ -18,9 +18,13 @@ import { DriveModule } from './drive/drive.module';
 import { CalendarModule } from './calendar/calendar.module';
 import { testModule } from './test/test.module';
 
+/*pipes */
+//import { CalendarRoundHoursPipe } from './calendar/calendar-round-hours.pipe';
+
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent//,CalendarRoundHoursPipe
   ],
   imports: [
     AlertModule,

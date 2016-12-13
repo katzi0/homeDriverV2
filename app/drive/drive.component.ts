@@ -19,7 +19,7 @@ const DRIVETIME: DriveTime[] = [
   {time: '06:30'},
   {time: '06:45'},
   {time: '08:00'},
-  {time: '11:00'}
+  {time: '15:00'}
 ]
 
 @Component({
