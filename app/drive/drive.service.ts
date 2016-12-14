@@ -26,10 +26,11 @@ const URL_DRIVES = 'http://localhost:3005/drive';
 
 
 
-  addDrive_RXObsverable(driver, passengers, direction, time, duration) { //TODO:add duration regarding driving direction
+  addDrive_RXObsverable(driver, passengers, direction, time, duration, date) { //TODO:add duration regarding driving direction
+
     if(driver != undefined){
       console.log(driver.name);
-
+      
     }
     else{
       driver.name = "no driver added to current drive yet";
@@ -41,7 +42,8 @@ const URL_DRIVES = 'http://localhost:3005/drive';
     console.log(direction);
     console.log(time);
     console.log(duration);
-    let jsonTest= {driver: driver.name, passengers: passengers, direction: direction, time: time, duration: duration};
+    console.log("date:"+date)
+    let jsonTest= {driver: driver.name, passengers: passengers, direction: direction, time: time, duration: duration, date:date};
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({headers : headers});

@@ -19,7 +19,7 @@ const DRIVETIME: DriveTime[] = [
   {time: '06:30'},
   {time: '06:45'},
   {time: '08:00'},
-  {time: '15:00'}
+  {time: '14:00'}
 ]
 
 @Component({
@@ -43,14 +43,14 @@ export class DriveComponent implements OnInit {
   driveDuration: number = 30;
 
   drivesFromDb: any[];
-
+  dateMomentObj: any;
+  date = Date;
 
   constructor(private _passengerService: PassengerService, private _costumerService: DriverService, private _driveService: DriveService) { }
 
     //@Input() passengers: {name: string};
     //@Input() driver: {name: string};
     ngOnInit() {
-
       // showPassengers(){
         this._passengerService.getPassengers_RXObsverable()
           .subscribe(
@@ -107,12 +107,13 @@ export class DriveComponent implements OnInit {
     }
 
     addDriveToDrives(){
+     console.log("date: "+this.date)
      //adding drive to db
-      this._driveService.addDrive_RXObsverable(this.driverInDrive,this.passengersInDrive, this.directionInDrive, this.timeInDrive, this.driveDuration)
+      this._driveService.addDrive_RXObsverable(this.driverInDrive,this.passengersInDrive, this.directionInDrive, this.timeInDrive, this.driveDuration, this.date)
         .subscribe(
           ( drives ) => {console.log(drives)},
           (err) => {console.log(err);}
-        )
+        )        
       //adding next occuiped ul li's according to drive duration
       this.addDriveDuration(this.timeInDrive, this.driveDuration);
 
@@ -127,7 +128,11 @@ export class DriveComponent implements OnInit {
         console.log(durationSector,driveDurationIn5minSectors);
         this.add5minSectorsToDuration(time, durationSector);
       }
-  }
+    }
+    addDriveDate(){
+       // console.log(this.dateMomentObj.formatted);
+        this.date = this.dateMomentObj.momentObj.toDate(); 
+    }
 
     add5minSectorsToDuration(time, durationSector){
     let timeStr : String;
@@ -163,26 +168,13 @@ export class DriveComponent implements OnInit {
     nextLiTime = hourStr + ':' + minutesStr;
     console.log(nextLiTime);
 
-    this._driveService.addDrive_RXObsverable("", "", "", nextLiTime, "")
+    this._driveService.addDrive_RXObsverable("", "", "", nextLiTime, "",this.date)
       .subscribe(
         ( drives ) => {console.log(drives)},
         (err) => {console.log(err);}
       )
   }
-  // convertTimeFromStrToInt(timeInArr){
-  //
-  //   if(Number(timeInArr.time.substr(0,2)) >= 10){
-  //     timeInArr.hourStr = timeInArr.time.substr(0,2);
-  //     timeInArr.minutesStr = timeInArr.time.substr(3,5);
-  //   }
-  //   else {
-  //     timeInArr.hourStr = timeInArr.time.substr(0,1);
-  //     timeInArr.minutesStr = timeInArr.time.substr(2,4);
-  //   }
-  // }
-  add5MinutesToTime(){
 
-    }
 
     showDrive(){ //TODO: check if define passenger[] and   passengersInDrive as a PassengerComponent
     if(this.passengersInDrive.length > 0){

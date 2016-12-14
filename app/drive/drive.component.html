@@ -32,3 +32,8 @@
     <button (click)="addDirectionToDrive(driveDirection.direction)">add direction</button>
   </li>
 </ul>
+
+<h3>drive date</h3>
+<ng2-datepicker [(ngModel)]="dateMomentObj"></ng2-datepicker>
+<button (click)="addDriveDate()">add date </button>
+<h4>Selected date is: {{ date }}</h4>

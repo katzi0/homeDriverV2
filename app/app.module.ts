@@ -18,6 +18,8 @@ import { DriveModule } from './drive/drive.module';
 import { CalendarModule } from './calendar/calendar.module';
 import { testModule } from './test/test.module';
 
+import { DatePickerModule } from 'ng2-datepicker';
+
 /*pipes */
 //import { CalendarRoundHoursPipe } from './calendar/calendar-round-hours.pipe';
 
@@ -37,7 +39,7 @@ import { testModule } from './test/test.module';
     DriveModule,
     CalendarModule,
     AppRoutingModule,
-    
+    DatePickerModule
     
   ],
   providers: [],

@@ -36,7 +36,8 @@ export class CalendarComponent implements OnInit {
 
     ngOnInit() {
       this.driveTimes = DRIVETIME;
-      this.getDrivesFromDb();
+      // this.getDrivesFromDb();
+      this.getDrivesFromDbByDriver();
       //get passengers serivce...
       this.getDriversFromDb();
     }

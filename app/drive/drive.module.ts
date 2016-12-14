@@ -16,8 +16,11 @@ import { PassengersModule } from '../passenger/passengers.module';
 /* drivers import */
 import { DriversModule } from '../drivers/drivers.module';
 
+/*Datepicker */
+import { DatePickerModule } from 'ng2-datepicker';
+
 @NgModule({
-    imports: [BrowserModule,FormsModule,PassengersModule, DriversModule, DriveRoutingModule, HttpModule],
+    imports: [BrowserModule,FormsModule,PassengersModule, DriversModule, DriveRoutingModule, HttpModule, DatePickerModule],
     //exports: [DriveComponent],
     declarations: [DriveComponent],
     //declarations: [DriveDirection, DriveTime, DriveComponent],
