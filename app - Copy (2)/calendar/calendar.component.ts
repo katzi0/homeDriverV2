@@ -7,10 +7,6 @@ import { DriveComponent } from "../drive/drive.component";
 import { CalendarHoursPerDayComponent } from "./calendar-hours-per-day.component";
 import { CalendarRoundHoursPipe } from './calendar-round-hours.pipe';
 import { DriveHour } from './drivehour';
-import { DriverTrips } from './drivertrips';
-
-//import { DriverTrips } from "../drivers/drivertrips";
-
 
 
 
@@ -31,22 +27,20 @@ const DRIVETIME: any[] = [
     styleUrls: ['calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
-  currentDriver: string;
   driveTimes;
   drivers : any[] = [];
   drivesFromDb : any[] = [];
   driveHours: DriveHour[] = [];// = [{hour: null ,drive: null}]; //TODO:1.put data inside arr before ngOnInit, 2.delete first object in arr
-  driverTrips: DriverTrips[] = [];
   constructor( private _driveService: DriveService, private _driversService: DriverService, 
                 private _calendarHoursPerDay : CalendarHoursPerDayComponent) { }
 
     ngOnInit() {
       this.driveTimes = DRIVETIME;
       //this.getDrivesFromDb();
-      //16.12
-      this.getDriversFromDb();
+      //15.12 
       this.getDrivesFromDbByDriver();
       //get passengers serivce...
+      this.getDriversFromDb();
     }
 
   showDrivesAndHours(){
@@ -88,51 +82,18 @@ export class CalendarComponent implements OnInit {
     .subscribe(
       (drivers) => this.drivers = drivers,
       ( err ) => {console.log(err);},
-      ( ) => this.saveDriversInDriverTrips()
     )
   }
-
-   saveDriversInDriverTrips() {
-  //   this.drivers.forEach(driver => {
-  //   this.driverTrips.push({drivers:null,trips:null})})
-    for(let i=0; i < this.drivers.length; i++){
-      this.driverTrips.push({drivers:this.drivers[i], trips: []})
-    }
-   }
 
   getDriveHoursPerDay() {
       // i =1 for remove first drive hour conatins null values
        for ( let i = 0; i < this._calendarHoursPerDay.driveHours.length; i++ ){
-         this.driveHours.push({
-         //this.driverTrips.push({
+          this.driveHours.push({
             hour: this._calendarHoursPerDay.driveHours[i].driveHourToPush,
             drive: this.drivesFromDb.find(drive => drive.time === this._calendarHoursPerDay.driveHours[i].driveHourToPush)});
        }
-       this.saveTripsInDriverTrips();
     }
-       saveTripsInDriverTrips(){         
-         for(let i = 0; i < this.driverTrips.length; i++){
-            //this.currentDriver = this.driverTrips[i].drivers.name; //TODO:FIX THIS SHIT
-            //TODO if driveHours[j].drive != undefined => check if driver name is the same. if not use hour only
-            for( let j = 0; j < this.driveHours.length; j++){
-              if(this.driveHours[j].drive != null ){
-                if( this.driveHours[j].drive.driver == this.driverTrips[i].drivers.name ){
-                  this.driverTrips[i].trips.push(this.driveHours[j])
-                }
-                else{
-                  this.driverTrips[i].trips.push({
-                  hour:this.driveHours[j].hour,
-                  drive: null})
-                }
-              }
-              else{
-                this.driverTrips[i].trips.push({
-                  hour:this.driveHours[j].hour,
-                  drive: null})
-              }
-            }
-         }
-       }
+
   // getDriveDurationInListItem(durationInMinutes){
   //   let numOfLiToBind:number = durationInMinutes/5;
   //   return numOfLiToBind;

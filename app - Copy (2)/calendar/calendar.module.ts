@@ -11,19 +11,18 @@ import { CalendarRoutingModule } from './calendar.routing.module';
 import { CalendarRoundHoursPipe } from './calendar-round-hours.pipe';
 
 import { DriveHour } from './drivehour';
-import { DriverTrips } from './drivertrips';
 
 
 /* drive import */
 import { DriveModule } from '../drive/drive.module';
 /* driver import */
-import { DriversModule } from '../drivers/drivers.module';
+import { DriverModule } from '../drivers/driver.module';
 
 
 @NgModule({
-    imports: [BrowserModule, FormsModule, HttpModule, DriveModule, DriversModule, CalendarRoutingModule],//[CalendarHoursPerDayModule],
+    imports: [BrowserModule, FormsModule, HttpModule, DriveModule, DriverModule, CalendarRoutingModule],//[CalendarHoursPerDayModule],
     declarations: [CalendarComponent, CalendarRoundHoursPipe],
-    providers: [CalendarHoursPerDayComponent,DriveHour,DriverTrips],
+    providers: [CalendarHoursPerDayComponent,DriveHour],
     exports: [CalendarComponent]
 })
 export class CalendarModule { }

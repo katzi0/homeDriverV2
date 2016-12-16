@@ -1,0 +1,39 @@
+<h1>single drive page</h1>
+<!--<button (click)="showDriversList = !showDriversList;">show passengers</button>-->
+<!--<button (click)="showPassengersList = !showPassengersList;">show Drivers</button>-->
+<button (click)="showDrive()">show drive info</button>
+<button (click) = "addDriveToDrives()">add Drive</button>
+<h3>passengers</h3>
+<ul class="drivers" id="passengers">
+  <li *ngFor="let passenger of passengers">
+    <app-passenger [passenger]="passenger"></app-passenger>
+    <button (click)="addPassengerToDrive(passenger)"> add to drive</button>
+  </li>
+  </ul>
+<h3>drivers</h3>
+  <ul class="drivers" id="drivers">
+    <li *ngFor="let driver of drivers">
+      <app-driver [driver]="driver"></app-driver>
+      <button (click)="addDriverToDrive(driver)"> add to drive</button>
+    </li>
+</ul>
+<h3>drive time</h3>
+<ul class="drivers">
+  <li *ngFor="let driveTime of driveTimes">
+    <span>{{driveTime.time}}</span>
+    <button (click)="addTimeToDrive(driveTime.time)">add time</button>
+  </li>
+</ul>
+
+<h3>drive directions</h3>
+<ul class="drivers">
+  <li *ngFor="let driveDirection of driveDirections">
+    <span>{{driveDirection.direction}}</span>
+    <button (click)="addDirectionToDrive(driveDirection.direction)">add direction</button>
+  </li>
+</ul>
+
+<h3>drive date</h3>
+<ng2-datepicker [(ngModel)]="dateMomentObj"></ng2-datepicker>
+<button (click)="addDriveDate()">add date </button>
+<h4>Selected date is: {{ date }}</h4>

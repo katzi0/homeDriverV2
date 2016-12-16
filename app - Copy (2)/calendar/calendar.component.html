@@ -1,0 +1,32 @@
+<h3>calendar</h3>
+<ul>
+  <li *ngFor="let item of ( driveTimes )"></li>
+</ul>
+<ul>
+  <li *ngFor="let driver of drivers"> 
+    <span>driver: {{driver.name}}</span>
+  </li>
+</ul>
+<ul class="calendar">
+  <li *ngFor="let driveHour of ( driveHours | CalendarRoundHours)" (click)="showLiContent(driveHour)">
+    <!--<span *ngIf="!driveHour.drive">-->
+      <!--{{driveHour.hour}}-->
+    <!--</span>-->
+    <span>
+      {{driveHour.hour}}
+    </span>
+  </li>
+</ul>
+<ul class="calendar" *ngFor="let driver of drivers; let i = index">
+  <li *ngFor="let driveHour of ( driveHours | CalendarRoundHours )" (click)="showLiContent(driveHour)">
+    <div *ngIf="driveHour.drive" [style.background]="'lime'" class="highlightDriveDiv">
+      <!--TODO:/change background style-->
+      <span>{{driveHour.drive.driver}} : נהג </span>
+      <span *ngIf="driveHour.drive.direction"> כיוון : {{driveHour.drive.direction}}</span>
+    </div>
+    <!--<span *ngIf="!driveHour.drive">-->
+      <!--{{driveHour.hour}}-->
+    <!--</span>-->
+  </li>
+</ul>
+
