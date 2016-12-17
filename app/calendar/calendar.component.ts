@@ -31,6 +31,8 @@ const DRIVETIME: any[] = [
     styleUrls: ['calendar.component.css']
 })
 export class CalendarComponent implements OnInit {
+  tripToRemove: DriveHour;
+  indexOfTripToRemove: number;
   currentDriver: string;
   driveTimes;
   drivers : any[] = [];
@@ -42,10 +44,10 @@ export class CalendarComponent implements OnInit {
 
     ngOnInit() {
       this.driveTimes = DRIVETIME;
-      //this.getDrivesFromDb();
       //16.12
       this.getDriversFromDb();
-      this.getDrivesFromDbByDriver();
+      // this.getDrivesFromDbByDriver();
+      this.getDrivesFromDb();
       //get passengers serivce...
     }
 
@@ -101,38 +103,61 @@ export class CalendarComponent implements OnInit {
    }
 
   getDriveHoursPerDay() {
-      // i =1 for remove first drive hour conatins null values
+      for (let j = 0; j < this.drivers.length; j++){
        for ( let i = 0; i < this._calendarHoursPerDay.driveHours.length; i++ ){
-         this.driveHours.push({
-         //this.driverTrips.push({
-            hour: this._calendarHoursPerDay.driveHours[i].driveHourToPush,
-            drive: this.drivesFromDb.find(drive => drive.time === this._calendarHoursPerDay.driveHours[i].driveHourToPush)});
-       }
-       this.saveTripsInDriverTrips();
+         //TODO: make arr of drivehours for each driver.
+          this.driveHours.push({
+          //this.driverTrips.push({
+              hour: this._calendarHoursPerDay.driveHours[i].driveHourToPush,
+              drive: this.drivesFromDb.find(drive => drive.time === this._calendarHoursPerDay.driveHours[i].driveHourToPush && drive.driver === this.drivers[j].name)});
+        }
+         this.saveTripsInDriverTrips();
+      }
     }
        saveTripsInDriverTrips(){         
          for(let i = 0; i < this.driverTrips.length; i++){
             //this.currentDriver = this.driverTrips[i].drivers.name; //TODO:FIX THIS SHIT
             //TODO if driveHours[j].drive != undefined => check if driver name is the same. if not use hour only
             for( let j = 0; j < this.driveHours.length; j++){
-              if(this.driveHours[j].drive != null ){
-                if( this.driveHours[j].drive.driver == this.driverTrips[i].drivers.name ){
-                  this.driverTrips[i].trips.push(this.driveHours[j])
-                }
-                else{
-                  this.driverTrips[i].trips.push({
-                  hour:this.driveHours[j].hour,
-                  drive: null})
-                }
-              }
-              else{
+              // if(this.driveHours[j].drive != null ){
+              //   if( this.driveHours[j].drive.driver == this.driverTrips[i].drivers.name ){
+              //     this.driverTrips[i].trips.push(this.driveHours[j])
+              //   }
+              //   // else{
+              //   //   this.driverTrips[i].trips.push({
+              //   //   hour:this.driveHours[j].hour,
+              //   //   drive: null})
+              //   // }
+              // }
+              // else{
                 this.driverTrips[i].trips.push({
                   hour:this.driveHours[j].hour,
                   drive: null})
               }
             }
+          for(let i = 0; i < this.driverTrips.length; i++){
+            for( let j = 0; j < this.driveHours.length; j++){
+              if(this.driveHours[j].drive != null ){
+                if( this.driveHours[j].drive.driver == this.driverTrips[i].drivers.name ){
+                 // this.driverTrips[i].trips.pop(this.driverTrips[i].trips.find)
+                // overWriteCurrentHourObj = this.driverTrips[i].trips.find(currentTrip => currentTrip.hour == this.driveHours[j].hour);
+                 
+                  this.tripToRemove = this.driverTrips[i].trips.find(currentTrip => currentTrip.hour == this.driveHours[j].hour);
+                  
+                  this.indexOfTripToRemove = this.driverTrips[i].trips.indexOf(this.tripToRemove);
+                  //remove trip
+                  this.driverTrips[i].trips.splice(this.indexOfTripToRemove,1);
+                  //push trip
+                  this.driverTrips[i].trips.splice(this.indexOfTripToRemove,0,this.driveHours[j]);
+
+               //   this.driverTrips[i].trips.push(this.driveHours[j])
+                }
+            }  
          }
-       }
+      //}
+    }
+  }
+  
   // getDriveDurationInListItem(durationInMinutes){
   //   let numOfLiToBind:number = durationInMinutes/5;
   //   return numOfLiToBind;
