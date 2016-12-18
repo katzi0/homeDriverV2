@@ -8,6 +8,7 @@ import { DriverComponent } from '../drivers/driver.component';
 export class DriverTrips { 
   constructor(
     public drivers: DriverComponent[], //todo: import drivers module and change type to driverComponent
+    public tripHour: string[],
     public trips: DriveHour[]
     ) { }    
 }

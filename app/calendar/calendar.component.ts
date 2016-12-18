@@ -53,7 +53,7 @@ export class CalendarComponent implements OnInit {
 
   showDrivesAndHours(){
     console.log(this.drivesFromDb);
-    this.getDriveHoursPerDay();
+   // this.getDriveHoursPerDay();
   }
 
   //get rides from db , TODO: change drive to ride 
@@ -67,7 +67,8 @@ export class CalendarComponent implements OnInit {
         //on error
         ( err ) => {console.log(err);},
         //on complete
-        (  ) => this.getDriveHoursPerDay()
+        (  ) => this.saveTripsInDriverTrips()
+        //(  ) => this.getDriveHoursPerDay()
       );
   }
 
@@ -80,7 +81,7 @@ export class CalendarComponent implements OnInit {
         //on error
         ( err ) => {console.log(err);},
         //on complete
-        (  ) => this.getDriveHoursPerDay()
+        (  ) => this.saveTripsInDriverTrips()//this.getDriveHoursPerDay()
       );
   }
 
@@ -98,72 +99,42 @@ export class CalendarComponent implements OnInit {
   //   this.drivers.forEach(driver => {
   //   this.driverTrips.push({drivers:null,trips:null})})
     for(let i=0; i < this.drivers.length; i++){
-      this.driverTrips.push({drivers:this.drivers[i], trips: []})
+      this.driverTrips.push({drivers:this.drivers[i],tripHour: [], trips: []})
     }
    }
 
   getDriveHoursPerDay() {
-      for (let j = 0; j < this.drivers.length; j++){
+      for (let j = 0; j < this.driverTrips.length; j++){
        for ( let i = 0; i < this._calendarHoursPerDay.driveHours.length; i++ ){
          //TODO: make arr of drivehours for each driver.
-          this.driveHours.push({
+          if(this.driverTrips[j].tripHour.indexOf(this._calendarHoursPerDay.driveHours[i].driveHourToPush) == -1)
+          this.driverTrips[j].trips.push({
           //this.driverTrips.push({
               hour: this._calendarHoursPerDay.driveHours[i].driveHourToPush,
-              drive: this.drivesFromDb.find(drive => drive.time === this._calendarHoursPerDay.driveHours[i].driveHourToPush && drive.driver === this.drivers[j].name)});
+              drive: null
+        })
+          this.driverTrips[j].tripHour.push(this._calendarHoursPerDay.driveHours[i].driveHourToPush)
         }
-         this.saveTripsInDriverTrips();
-      }
-    }
-       saveTripsInDriverTrips(){         
-         for(let i = 0; i < this.driverTrips.length; i++){
-            //this.currentDriver = this.driverTrips[i].drivers.name; //TODO:FIX THIS SHIT
-            //TODO if driveHours[j].drive != undefined => check if driver name is the same. if not use hour only
-            for( let j = 0; j < this.driveHours.length; j++){
-              // if(this.driveHours[j].drive != null ){
-              //   if( this.driveHours[j].drive.driver == this.driverTrips[i].drivers.name ){
-              //     this.driverTrips[i].trips.push(this.driveHours[j])
-              //   }
-              //   // else{
-              //   //   this.driverTrips[i].trips.push({
-              //   //   hour:this.driveHours[j].hour,
-              //   //   drive: null})
-              //   // }
-              // }
-              // else{
-                this.driverTrips[i].trips.push({
-                  hour:this.driveHours[j].hour,
-                  drive: null})
-              }
-            }
-          for(let i = 0; i < this.driverTrips.length; i++){
-            for( let j = 0; j < this.driveHours.length; j++){
-              if(this.driveHours[j].drive != null ){
-                if( this.driveHours[j].drive.driver == this.driverTrips[i].drivers.name ){
-                 // this.driverTrips[i].trips.pop(this.driverTrips[i].trips.find)
-                // overWriteCurrentHourObj = this.driverTrips[i].trips.find(currentTrip => currentTrip.hour == this.driveHours[j].hour);
-                 
-                  this.tripToRemove = this.driverTrips[i].trips.find(currentTrip => currentTrip.hour == this.driveHours[j].hour);
-                  
-                  this.indexOfTripToRemove = this.driverTrips[i].trips.indexOf(this.tripToRemove);
-                  //remove trip
-                  this.driverTrips[i].trips.splice(this.indexOfTripToRemove,1);
-                  //push trip
-                  this.driverTrips[i].trips.splice(this.indexOfTripToRemove,0,this.driveHours[j]);
-
-               //   this.driverTrips[i].trips.push(this.driveHours[j])
-                }
-            }  
-         }
-      //}
     }
   }
+       saveTripsInDriverTrips(){         
+         for(let i = 0; i < this.driverTrips.length; i++){
+            for( let j = 0; j < this.drivesFromDb.length; j++){
+              if(this.driverTrips[i].drivers.name == this.drivesFromDb[j].driver){
+                this.driverTrips[i].trips.push(this.drivesFromDb[j]);
+                this.driverTrips[i].tripHour.push(this.drivesFromDb[j].time);
+              }
+            }
+          }
+         this.getDriveHoursPerDay();
+       }
   
   // getDriveDurationInListItem(durationInMinutes){
   //   let numOfLiToBind:number = durationInMinutes/5;
   //   return numOfLiToBind;
   // }
   //
-  showLiContent(driveHour){
-    console.log(driveHour);
-  }
+  // showLiContent(driveHour){
+  //   console.log(driveHour);
+  // }
 }
