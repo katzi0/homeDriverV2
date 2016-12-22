@@ -1,3 +1,3 @@
 export class DriveTime {
-  time: string;
+  hour: string;
 }

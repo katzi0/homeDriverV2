@@ -20,8 +20,8 @@
 <h3>drive time</h3>
 <ul class="drivers">
   <li *ngFor="let driveTime of driveTimes">
-    <span>{{driveTime.time}}</span>
-    <button (click)="addTimeToDrive(driveTime.time)">add time</button>
+    <span>{{driveTime.hour}}</span>
+    <button (click)="addTimeToDrive(driveTime.hour)">add time</button>
   </li>
 </ul>
 

@@ -40,7 +40,7 @@ export class DriverService {
 
       return this._http.delete('http://localhost:3003/driver/' + userID, options)
         .map((response: Response) => response.json())
-
+        .do(value => console.log(value))
         .catch(this._handlerError);
     }
 

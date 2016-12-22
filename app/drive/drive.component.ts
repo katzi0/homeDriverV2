@@ -15,11 +15,11 @@ const DRIVEDIRECTION: DriveDirection[] = [
 ]
 
 const DRIVETIME: DriveTime[] = [
-  {time: '06:00'},
-  {time: '06:30'},
-  {time: '06:45'},
-  {time: '08:00'},
-  {time: '14:00'}
+  {hour: '06:00'},
+  {hour: '06:30'},
+  {hour: '06:45'},
+  {hour: '08:00'},
+  {hour: '14:00'}
 ]
 
 @Component({
@@ -31,12 +31,14 @@ const DRIVETIME: DriveTime[] = [
 
 
 export class DriveComponent implements OnInit {
+  @Input() _id: number; 
   passengers: any[];
   drivers: DriverComponent[];
   passengersInDrive: any[]=[];
   driverInDrive;//: CostumerComponent; //TODO: check how to initalize the component;
   directionInDrive;
   timeInDrive;
+  //driveNumber: Number;
   selectedDriveEntity;
   driveTimes = DRIVETIME;
   driveDirections = DRIVEDIRECTION;
@@ -48,8 +50,6 @@ export class DriveComponent implements OnInit {
 
   constructor(private _passengerService: PassengerService, private _costumerService: DriverService, private _driveService: DriveService) { }
 
-    //@Input() passengers: {name: string};
-    //@Input() driver: {name: string};
     ngOnInit() {
       // showPassengers(){
         this._passengerService.getPassengers_RXObsverable()
@@ -76,7 +76,6 @@ export class DriveComponent implements OnInit {
 
     addPassengerToDrive(passenger){
     this.passengersInDrive.push(passenger.name);
-    //    this.passengersInDrive.push(passenger);
     console.log(this.passengersInDrive," ", this.passengersInDrive.length);
   }
 
@@ -100,9 +99,9 @@ export class DriveComponent implements OnInit {
 
     }
 
-    addTimeToDrive(time){
-      this.timeInDrive = time;
-      console.log(time,"added to the drive component");
+    addTimeToDrive(hour){
+      this.timeInDrive = hour;
+      console.log(hour,"added to the drive component");
 
     }
 
@@ -114,7 +113,6 @@ export class DriveComponent implements OnInit {
           ( drives ) => {console.log(drives)},
           (err) => {console.log(err);}
         )        
-      //adding next occuiped ul li's according to drive duration
       this.addDriveDuration(this.timeInDrive, this.driveDuration);
 
     }
@@ -123,57 +121,55 @@ export class DriveComponent implements OnInit {
       let driveDurationIn5minSectors = duration/5;
       let durationSector: number = 0;
       for (let i = 0; i < driveDurationIn5minSectors; i++){
-        //this.add5minSectorsToDuration(time, durationSector * 5);
         durationSector += 5;
         console.log(durationSector,driveDurationIn5minSectors);
         this.add5minSectorsToDuration(time, durationSector);
       }
     }
     addDriveDate(){
-       // console.log(this.dateMomentObj.formatted);
         this.date = this.dateMomentObj.momentObj.toDate(); 
     }
 
     add5minSectorsToDuration(time, durationSector){
-    let timeStr : String;
-    let nextLiTime : String = time + durationSector ;
-    let hourStr : String = null;
-    let minutesStr : String = null;
-    let hourInt : number;
-    let minutesInt: number;
+      let timeStr : String;
+      let nextLiTime : String = time + durationSector ;
+      let hourStr : String = null;
+      let minutesStr : String = null;
+      let hourInt : number;
+      let minutesInt: number;
 
       hourStr = nextLiTime.substr(0,2);
       minutesStr = nextLiTime.substr(3,6);
 
-    hourInt = Number(hourStr);
-    minutesInt = Number(minutesStr);
+      hourInt = Number(hourStr);
+      minutesInt = Number(minutesStr);
 
-    if (minutesInt == 55) {
-        minutesStr = "00";
-        hourInt += 1;
-    }
-    else if(minutesInt < 10){
-      minutesStr = "0" + minutesInt.toString();
-    }
-    else {
-      minutesStr = minutesInt.toString();
-    }
-    if(hourInt <= 10) {
-      hourStr ="0" + hourInt.toString();
-    }
-    else {
-      hourStr = hourInt.toString();
-    }
+      if (minutesInt == 60) {
+          minutesStr = "00";
+          hourInt += 1;
+      }
+      else if(minutesInt < 10){
+        minutesStr = "0" + minutesInt.toString();
+      }
+      else {
+        minutesStr = minutesInt.toString();
+      }
+      if(hourInt <= 10) {
+        hourStr ="0" + hourInt.toString();
+      }
+      else {
+        hourStr = hourInt.toString();
+      }
 
-    nextLiTime = hourStr + ':' + minutesStr;
-    console.log(nextLiTime);
-    //15.12 
-    //this._driveService.addDrive_RXObsverable("", "", "", nextLiTime, "",this.date)
-      this._driveService.addDrive_RXObsverable(this.driverInDrive, "", "", nextLiTime, "",this.date)
-      .subscribe(
-        ( drives ) => {console.log(drives)},
-        (err) => {console.log(err);}
-      )
+      nextLiTime = hourStr + ':' + minutesStr;
+      console.log(nextLiTime);
+      //15.12 
+      //this._driveService.addDrive_RXObsverable("", "", "", nextLiTime, "",this.date)
+        this._driveService.addDrive_RXObsverable(this.driverInDrive, "", "", nextLiTime, "",this.date)
+        .subscribe(
+          ( drives ) => {console.log(drives)},
+          (err) => {console.log(err);}
+        )
   }
 
 
@@ -196,6 +192,16 @@ export class DriveComponent implements OnInit {
 
   }
 
+  deleteDrive(){
+    this._driveService.deleteDrive_RXObservable(this._id)
+      .subscribe(
+        //it worked
+        ( drive ) => {console.log(drive)},
+        //error
+        (err) => {console.log(err);}
+      );
   }
+}
+
 
 

@@ -9,22 +9,22 @@
 </ul>
 <ul class="calendar" *ngFor="let driverTrip of driverTrips; let i = index" >
   <!--<li *ngFor="let driverTrip of ( driverTrips | CalendarRoundHours)" (click)="showLiContent(driveHour)">-->
-      <li *ngFor="let driverTrip of ( driverTrip.trips| CalendarRoundHours)" (click)="showLiContent(driveHour)">
+      <li *ngFor="let driverTrip of ( driverTrip.trips | CalendarRoundHours  )" (click)="showLiContent(driveHour)">
     <!--<span *ngIf="!driveHour.drive">-->
       <!--{{driveHour.hour}}-->
     <!--</span>-->
     <span>
-      {{driverTrip.hour}}
+     {{driverTrip.hour}}
     </span>
-    
   </li>
 </ul>
 <!-- OLD OLD OLD -->
 <ul class="calendar" *ngFor="let driverTrip of driverTrips; let i = index">
-  <li *ngFor="let driverTrip of ( driverTrip.trips| CalendarRoundHours)" (click)="showLiContent(driveHour)">
-    <div *ngIf="driverTrip.drive" [style.background]="'lime'" class="highlightDriveDiv">
+  <!--<li *ngFor="let driverTrip of ( driverTrip.trips| CalendarRoundHours)" (click)="showLiContent(driveHour)">-->
+  <li *ng *ngFor="let driverTrip of ( driverTrip.trips | CalendarRoundHours )">
+    <div *ngIf="driverTrip.drive != null" [style.background]="'lime'" class="highlightDriveDiv">
       <!--TODO:/change background style-->
-      <span>{{driverTrip.drive.driver}} : נהג </span>
+      <span (click)="deleteDrive(driverTrips[i],driverTrip)">{{driverTrip.drive.driver}} : נהג </span>
       <!--<span *ngIf="driverTrip.drive.direction"> כיוון : {{driveHour.drive.direction}}</span>-->
     </div>
   </li>
