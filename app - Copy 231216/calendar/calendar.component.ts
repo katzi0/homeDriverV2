@@ -105,9 +105,8 @@ export class CalendarComponent implements OnInit {
       for (let j = 0; j < this.driverTrips.length; j++){
        for ( let i = 0; i < this._calendarHoursPerDay.driveHours.length; i++ ){
           //array for display hours per day
-          if(j == 1){
-            this.driveHours.push({hour:this._calendarHoursPerDay.driveHours[i].driveHourToPush,drive:null});
-          }
+          this.driveHours.push(this._calendarHoursPerDay.driveHours[i].driveHourToPush);
+          
           if(this.driverTrips[j].tripHour.indexOf(this._calendarHoursPerDay.driveHours[i].driveHourToPush) == -1)
           {
             this.driverTrips[j].trips.push({

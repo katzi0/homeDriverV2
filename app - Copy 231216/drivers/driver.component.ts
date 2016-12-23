@@ -13,15 +13,13 @@ import { DriverService } from './driver.service';
 export class DriverComponent implements OnInit {
 
   @Input() driver:  {_id: number, name: string};
-  //@Input() index:  number;
-  //@Input() costumer: {id: number, title: string};
+  @Input() costumer: {id: number, title: string};
 
   constructor(private _costumerService : DriverService) {
   //  this.driverNumber += 1;
   }
 
   myColor = 'gray';
-  //driverNumber = 0;
 
     ngOnInit() { }
 
@@ -35,6 +33,4 @@ export class DriverComponent implements OnInit {
         (err) => {console.log(err);}
       );
   }
-
-
 }

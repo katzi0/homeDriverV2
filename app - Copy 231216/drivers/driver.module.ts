@@ -7,8 +7,7 @@ import { DriverTrips } from './drivertrips';
 
 @NgModule({
     imports: [ BrowserModule, DriverDetailModule ],
-    declarations: [ DriverComponent],// DriverTripsComponent ],
-    exports: [ DriverComponent ],
-    providers: [DriverTrips]
+    declarations: [ DriverComponent, DriverTrips],// DriverTripsComponent ],
+    exports: [ DriverComponent, DriverTrips ],
 })
 export class DriverModule { }

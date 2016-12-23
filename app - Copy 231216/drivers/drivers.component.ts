@@ -18,7 +18,7 @@ import { DriverDetailComponent } from './driver-detail.component';
     //providers: [CostumerService,CostumerComponent]
 })
 export class DriversComponent implements OnInit {
-    drivers: any[];
+    drivers: DriverComponent[];
     //drivers: Observable<any>;
     //drivers: Promise<any>;
     // drivers: Observable<any[]>;

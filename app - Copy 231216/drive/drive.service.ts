@@ -26,7 +26,7 @@ const URL_DRIVES = 'http://localhost:3005/drive';
 
 
 
-  addDrive_RXObsverable(driver, passengers, direction, time, duration, date) { //TODO:add duration regarding driving direction
+  addDrive_RXObsverable(driver, passengers, direction, hour, duration, date) { //TODO:add duration regarding driving direction
 
     if(driver != undefined){
       console.log(driver.name);
@@ -40,10 +40,10 @@ const URL_DRIVES = 'http://localhost:3005/drive';
 
     console.log(passengers);
     console.log(direction);
-    console.log(time);
+    console.log(hour);
     console.log(duration);
     console.log("date:"+date)
-    let jsonTest= {driver: driver.name, passengers: passengers, direction: direction, time: time, duration: duration, date:date};
+    let jsonTest= {driver: driver.name, passengers: passengers, direction: direction, hour: hour, duration: duration, date:date};
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({headers : headers});
@@ -57,12 +57,12 @@ const URL_DRIVES = 'http://localhost:3005/drive';
    // this.addDriveDuration(time, duration);
   }
 
-  addDriveToDB(driver, passengers, direction, time, duration){
+  addDriveToDB(driver, passengers, direction, hour, duration){
     console.log(passengers);
     console.log(direction);
-    console.log(time);
+    console.log(hour);
     console.log(duration);
-    let jsonTest= {driver: driver.name, passengers: passengers, direction: direction, time: time, duration: duration};
+    let jsonTest= {driver: driver.name, passengers: passengers, direction: direction, hour: hour, duration: duration};
 
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({headers : headers});
@@ -74,30 +74,29 @@ const URL_DRIVES = 'http://localhost:3005/drive';
       .catch(this._handlerError);
   }
 
-  addDriveDuration(time, duration){
+  addDriveDuration(hour, duration){
     let driveDurationIn5minSectors = duration/5;
     for (let durationSector = 0; durationSector > driveDurationIn5minSectors; durationSector++){
-      this.add5minSectorsToDuration(time, durationSector);
+      this.add5minSectorsToDuration(hour, durationSector);
     }
   }
 
-  add5minSectorsToDuration(time, durationSector){
-    let timeStr : String = time;
-    let hourStr : String = time.substr(0,2);
-    let minutesStr : String = time.substr(3,5);
+  add5minSectorsToDuration(hour, durationSector){
+    let timeStr : String = hour;
+    let hourStr : String = hour.substr(0,2);
+    let minutesStr : String = hour.substr(3,5);
     console.log(hourStr,minutesStr);
   }
 
-  deleteDrive_RXObservable(userID){
+  deleteDrive_RXObservable(driveID){
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({headers : headers});
 
-    return this._http.delete('http://localhost:3005/drive' + userID, options)
+    return this._http.delete('http://localhost:3005/drive/' + driveID, options)
       .map((response: Response) => response.json())
-
+      .do(value => console.log(value))
       .catch(this._handlerError);
   }
-
 
   getDrives() {
     return this._http.get(URL_DRIVES)

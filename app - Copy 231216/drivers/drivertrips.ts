@@ -7,7 +7,7 @@ import { DriverComponent } from './driver.component';
 @Injectable()
 export class DriverTrips { 
   constructor(
-    public driver : DriverComponent,
+    public drivers : DriverComponent[],
     public trips: DriveHour[]
     ) { }    
 }

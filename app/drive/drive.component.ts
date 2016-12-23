@@ -132,20 +132,34 @@ export class DriveComponent implements OnInit {
 
     add5minSectorsToDuration(time, durationSector){
       let timeStr : String;
-      let nextLiTime : String = time + durationSector ;
+      let nextLiTime : String;// = time + durationSector ;
+      let nextMinutes: number;
       let hourStr : String = null;
       let minutesStr : String = null;
       let hourInt : number;
       let minutesInt: number;
 
+      nextMinutes = Number(time.substr(3,6)) + Number(durationSector);
+      nextLiTime = time.substr(0,2) + ":" + String(nextMinutes);
       hourStr = nextLiTime.substr(0,2);
       minutesStr = nextLiTime.substr(3,6);
 
       hourInt = Number(hourStr);
       minutesInt = Number(minutesStr);
 
-      if (minutesInt == 60) {
-          minutesStr = "00";
+      if (minutesInt >= 60) {
+          if(minutesInt == 60){
+            minutesStr = "00";
+          }
+          else{
+            minutesInt = minutesInt-60;
+            if(minutesInt < 10){
+              minutesStr = "0" + minutesInt.toString();
+            }
+            else{
+              minutesStr = minutesInt.toString();
+            }  
+        }
           hourInt += 1;
       }
       else if(minutesInt < 10){
